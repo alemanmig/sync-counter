@@ -27,9 +27,17 @@ sync_counter
   .count_o    (vif.count_o)
 );
 
+bind dut sva
+dut_sva(
+  .clk_i      (vif.clk_i),
+  .rst_ni     (vif.rst_ni),
+  .enable_i   (vif.enable_i),
+  .count_o    (vif.count_o)
+
+);
+
   initial begin
     $timeformat(-9, 1, "ns", 10);
-    //rising_edge();
   end
 
 endmodule : tb
