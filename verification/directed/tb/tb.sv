@@ -38,10 +38,10 @@ dut_sva(
 
 bind dut fcover
 dut_fcover ( 
-  .clk_i      (vif.clk_i),
-  .rst_ni     (vif.rst_ni),
-  .enable_i   (vif.enable_i),
-  .count_o    (vif.count_o)
+  .clk_i      (clk_i),
+  .rst_ni     (rst_ni),
+  .enable_i   (enable_i),
+  .count_o    (count_o)
 
 );
 

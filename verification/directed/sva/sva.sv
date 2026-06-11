@@ -57,37 +57,30 @@ endproperty
 
 
 p_tc01_assert: assert property(p_tc01)
-  $info ("conteo correcto");
   else 
   $error("Error: Conteo con enable activo");
 
 p_tc02_assert: assert property(p_tc02)
-  $info ("conteo correcto");
   else 
   $error("Error: Retención con enable desactivado");
 
 p_tc03_assert: assert property(p_tc03)
-  $info ("conteo correcto");
   else 
   $error("Error: wraparound");
 
 p_tc04_hold_reset_assert: assert property(p_tc04_hold_reset)
-  $info ("conteo correcto");
   else 
   $error("Error: Hold_reset");
 
 p_tc04_after_reset_assert: assert property(p_tc04_after_reset)
-  $info ("conteo correcto");
   else 
   $error("Error: After_reset");
 
 p_tc04_reset_enable_assert: assert property(p_tc04_reset_enable)
-  $info ("conteo correcto");
   else 
   $error("Error: detección de conteo erróneo");
 
 p_tc05_assert: assert property (p_tc05)
-  $info ("conteo correcto");
   else 
   $error("Error: conteo continuo");
 

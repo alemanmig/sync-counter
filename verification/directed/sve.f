@@ -8,3 +8,4 @@ sv/vif_if.sv
 tests/test.sv
 sva/sva.sv
 tb/tb.sv
+fcover/fcover.sv
