@@ -20,10 +20,10 @@ module test (
     
     //set de tareas
     TC01();
-    TC02();
-    TC03();
-    TC04();
-    TC05();
+    //TC02();
+    //TC03();
+    //TC04();
+    //TC05();
     //Stimulus
 
 

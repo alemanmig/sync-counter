@@ -9,9 +9,13 @@ module sva (
 
 property p_tc01;
     @(posedge clk_i) 
-    
+    vif.enable_i |=> vif.count_o == $past(vif.count_o) + 1;
 endproperty
 
   //rising_edge_assert: assert property (rising_edge)
+p_tc01_assert: assert property (p_tc01)
+  $info ("conteo correcto");
+  else 
+  $error("Error: detección de conteo erróneo");
 
 endmodule

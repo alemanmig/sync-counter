@@ -48,14 +48,14 @@ SEED_MODE  ?= auto
 SEED_FLAGS ?=
 
 # Code Coverage [true, false]
-ENABLE_CODE_COV  ?= false
+ENABLE_CODE_COV  ?= true
 COV_FLAGS_COMMON ?= -cm line+cond+fsm+branch+tgl+assert
 COV_FLAGS_VCS    ?=
 COV_FLAGS_SIMV   ?=
 
 # SVA [true, false]
-ENABLE_SVA ?= false
-SVA_FLAGS_VCS  ?= -assert disable
+ENABLE_SVA ?= true
+SVA_FLAGS_VCS  ?= -assert enable_debug
 SVA_FLAGS_SIMV ?=
 
 # ================================  CONTROL  ==================================
@@ -81,7 +81,7 @@ endif
 # SVA mode switch [true, false]
 ifeq ($(ENABLE_SVA),true)
 	SVA_FLAGS_VCS  = -assert enable_diag+enable_hier
-	SVA_FLAGS_SIMV = -assert finish_maxfail=1000+maxcover=10+summary+quiet1+hier=$(TB_DIR)/sva/assert_hier.txt+report=$(LOGS_DIR)/$(CUR_DATE)_sva.log
+	SVA_FLAGS_SIMV = -assert summary+finish_maxfail=1000+quiet1+report=$(LOGS_DIR)/$(CUR_DATE)_sva.log
 endif
 
 # ==============================  TOOLS SETUP  ================================
@@ -91,6 +91,7 @@ RTL_FILES = $(RTL_DIR)/sync_counter.sv
 SVE = -F $(TB_DIR)/sve.f
 VERDI_FILE = $(VERDI_DIR)/verdi.tcl
 DPI_FILE = $(DPI_DIR)/dpi.cpp
+WAVE_FILE	:= $(ROOT_DIR)/signal.rc
 
 # Synopsys VCS/SIMV options
 FILES = $(RTL_FILES) $(SVE) 
@@ -194,6 +195,18 @@ vars: ## TB: Print Makefile variables
 
 # ==========================  SYNOPSYS VCS/VERDI/URG  ==========================
 
+#______________________________________________________________________________
+.PHONY:	new-coverage
+new-coverage:	clean compile sim cov verdi-cov
+
+#______________________________________________________________________________
+.PHONY:new-sim
+new-sim:	clean compile sim cov verdi
+
+#______________________________________________________________________________
+.PHONY:new-sim-wave
+new-sim-wave:	clean compile sim cov verdi-wave
+
 .PHONY: compile
 compile: ## TB: Runs VCS compilation
 	@echo -e "$(C_ORA)TB: Compiling UVM project$(NC)"
@@ -215,6 +228,12 @@ sim: ## TB: Runs simv simulation
 verdi: ## TB: Opens Verdi GUI
 	@echo -e "$(C_ORA)TB: Openning Verdi$(NC)"
 	cd $(RUN_DIR) && verdi $(VERDI_FLAGS) &
+#______________________________________________________________________________
+
+.PHONY: verdi-wave
+verdi-wave: ## TB: Opens Verdi GUI and loads waveform
+	@echo -e "$(C_ORA)TB: Openning Verdi$(NC)"
+	cd $(RUN_DIR) && verdi $(VERDI_FLAGS) -sswr $(WAVE_FILE) &
 #______________________________________________________________________________
 
 .PHONY: verdi-play
