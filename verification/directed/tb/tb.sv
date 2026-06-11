@@ -36,6 +36,15 @@ dut_sva(
 
 );
 
+bind dut fcover
+dut_fcover ( 
+  .clk_i      (vif.clk_i),
+  .rst_ni     (vif.rst_ni),
+  .enable_i   (vif.enable_i),
+  .count_o    (vif.count_o)
+
+);
+
   initial begin
     $timeformat(-9, 1, "ns", 10);
   end

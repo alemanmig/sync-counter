@@ -16,14 +16,16 @@ module test (
 //    get_config_args();
     //vif.count_o = 1'b0;
     // Apply reset
+    init();
     reset();
     
     //set de tareas
     TC01();
-    //TC02();
-    //TC03();
-    //TC04();
-    //TC05();
+    TC02();
+    TC03();
+    reset();
+    TC04();
+    TC05();
     //Stimulus
 
 
@@ -47,6 +49,8 @@ module test (
   endtask : reset
 
   task automatic init();
+    vif.rst_ni = 1'b0;
+    @(posedge vif.clk_i);
     vif.rst_ni = 1'b1; //liberado
     vif.enable_i = 1'b0; //deshabilitado conteo
     @(posedge vif.clk_i);
@@ -57,7 +61,8 @@ module test (
   task automatic TC01();
     init();
     vif.enable_i = 1'b1;  //habilito conteo
-    repeat (10) @(posedge vif.clk_i);
+    repeat (11) @(posedge vif.clk_i);
+    vif.enable_i = 1'b0;
   endtask : TC01
 
    //task: Retencion con enable desactivado 
@@ -87,7 +92,7 @@ module test (
     repeat (7) @(posedge vif.clk_i);
 
     vif.rst_ni = 1'b0; //activo reset
-    #3;
+    #7;
     vif.rst_ni = 1'b1; //libero reset
     vif.enable_i = 1'b1;
   endtask : TC04 
